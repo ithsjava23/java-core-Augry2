@@ -18,14 +18,18 @@ public class ProductRecord {
     }
 
 
+    //todo should return a product with this id
     public Object uuid() {
         return null;
     }
 
+    // todo return a category
     public Category category() {
         return null;
     }
 
+    // todo return a price or something
     public boolean price() {
+        return true;
     }
 }

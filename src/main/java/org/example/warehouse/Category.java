@@ -6,6 +6,7 @@ public class Category {
 
     private Category() {
     }
+
     /**
      * will create a new object of type Category
      * */

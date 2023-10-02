@@ -32,12 +32,12 @@ public class Warehouse {
         return uniqueInstance;
     }
     /**
-     * checks if the variable instance is null, if it is null then it will create a new
-     * warehouse object, otherwise it will return the existing one
+     * checks if the variable uniqueInstance is null OR if uniqueInstance has been given a name which equals the name in the parameter
+     * otherwise it will return the existing one
      * @param name becomes the name for the object
      * */
     public static Warehouse getInstance(String name){
-        if (uniqueInstance == null){
+        if (uniqueInstance == null || !uniqueInstance.name.equals(name)){
             uniqueInstance = new Warehouse(name);
         }
         return uniqueInstance;

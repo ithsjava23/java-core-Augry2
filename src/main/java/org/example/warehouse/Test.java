@@ -9,12 +9,13 @@ public class Test {
         UUID testID = new UUID(testIDValue, 0);
         // UUID.randomUUID()
 
-        Warehouse warehouse = Warehouse.getInstance();
+        Warehouse warehouse = Warehouse.getInstance("myStore");
 
 
         warehouse.addProduct(testID,"milk", Category.of("milk"), BigDecimal.valueOf(23));
 
         System.out.println(warehouse.getProductById(testID));
+
 
 
 

@@ -16,8 +16,14 @@ public class Category {
         return category;
     }
 
-
     public String getName() {
         return this.categoryName;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryName='" + categoryName + '\'' +
+                '}';
     }
 }

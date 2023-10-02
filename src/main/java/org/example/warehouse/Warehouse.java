@@ -3,11 +3,12 @@ package org.example.warehouse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Warehouse {
 
-    List<ProductRecord> listOfProducts = new ArrayList<>(); /**list that contains all the products in the store*/
+    private List<ProductRecord> listOfProducts = new ArrayList<>(); /**list that contains all the products in the store*/
     private String name;
     private static Warehouse uniqueInstance; // todo read more about this thing
 
@@ -42,7 +43,6 @@ public class Warehouse {
         return uniqueInstance;
     }
 
-
     /**
      * Creates an object of the type ProductRecord. and adds it to the list
      *
@@ -55,27 +55,35 @@ public class Warehouse {
     }
 
 
-
-    public boolean isEmpty() {
-        return false;
+    public boolean isEmpty() { // todo look more at what to do with this method
+        return listOfProducts.isEmpty();
     }
 
     //todo should return a list or something
-    public List getProducts() {
-        return null;
+    public List<ProductRecord> getProducts() {
+        return listOfProducts;
     }
 
-    // todo should return a product that matches the input uuid
-    public ProductRecord getProductById(Object uuid) {
-        return null;
+    /**todo read what optional does.. seems to work with the test
+     * searches for a specified product, if the product is found we return it
+     * otherwise return optional.empty (instead of null)
+     * */
+    public Optional<ProductRecord> getProductById(UUID uuid) {
+        for (ProductRecord product : listOfProducts) {
+            if (product.uuid().equals(uuid)) {
+                return Optional.of(product);
+            }
+        }
+        return Optional.empty();
     }
 
     public void updateProductPrice(Object uuid, BigDecimal bigDecimal) {
     }
 
-    // todo should return the new changed product?
-    public boolean getChangedProducts() {
-        return false;
+    // todo return arraylist
+    public List<ProductRecord> getChangedProducts() {
+
+        return new ArrayList<>(); // Default behavior, no changed products
     }
 
     // todo should return a map using keys and values, maybe key is category and value is the item
@@ -84,8 +92,16 @@ public class Warehouse {
     }
 
     // todo should return all the product sorted by input category?
-    public boolean getProductsBy(Category meat) {
-        return false;
+    public List<ProductRecord> getProductsBy(Category category) {
+
+        // todo temporary code just to compile
+        List<ProductRecord> productsInCategory = new ArrayList<>();
+        for (ProductRecord product : listOfProducts) {
+            if (product.category().equals(category)) {
+                productsInCategory.add(product);
+            }
+        }
+        return productsInCategory;
     }
 
 

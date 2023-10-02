@@ -1,6 +1,7 @@
 package org.example.warehouse;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ProductRecord {
@@ -17,19 +18,40 @@ public class ProductRecord {
         this.productCategory = category;
     }
 
-
-    //todo should return a product with this id
-    public Object uuid() {
-        return null;
+    /**returns this objects UUID*/
+    public UUID uuid() {
+        return this.productUUID;
     }
 
-    // todo return a category
     public Category category() {
-        return null;
+        return this.productCategory;
     }
 
-    // todo return a price or something
-    public boolean price() {
-        return true;
+    public Object price() {
+        return this.productPrice;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ProductRecord{" +
+                "productUUID=" + productUUID +
+                ", productName='" + productName + '\'' +
+                ", productPrice=" + productPrice +
+                ", productCategory=" + productCategory +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductRecord that = (ProductRecord) o;
+        return Objects.equals(productUUID, that.productUUID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productUUID);
     }
 }

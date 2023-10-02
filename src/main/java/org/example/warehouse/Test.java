@@ -5,19 +5,16 @@ import java.util.UUID;
 
 public class Test {
     public static void main(String[] args) {
+        long testIDValue = 123L; // Assuming 123 is your long value
+        UUID testID = new UUID(testIDValue, 0);
+        // UUID.randomUUID()
 
         Warehouse warehouse = Warehouse.getInstance();
 
-        warehouse.addProduct(UUID.randomUUID(),"milk", Category.of("milk"), BigDecimal.valueOf(23));
 
+        warehouse.addProduct(testID,"milk", Category.of("milk"), BigDecimal.valueOf(23));
 
-
-
-        //Warehouse.getInstance("warehouse");
-
-
-
-
+        System.out.println(warehouse.getProductById(testID));
 
 
 

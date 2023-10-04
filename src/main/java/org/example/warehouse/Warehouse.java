@@ -49,6 +49,9 @@ public class Warehouse {
      * @return returns the created product
      */
     public ProductRecord addProduct(UUID id, String name, Category category, BigDecimal price) {
+
+
+
         ProductRecord newItem = new ProductRecord(id, name,price,category);
         listOfProducts.add(newItem);
         return newItem;

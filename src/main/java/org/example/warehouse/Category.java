@@ -1,29 +1,62 @@
 package org.example.warehouse;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class Category {
     String categoryName;
-
+    private static List<Category> existingCategories = new ArrayList<>();
 
     private Category() {
     }
 
     /**
      * will create a new object of type Category
-     * */
-    public static Category of(String categoryName){
+     */
+    public static Category of(String categoryName) {
+        String capitalCategoryName = capitalizeFirstLetter(categoryName);
+
+        // todo add streams instead of loop
+        for (Category currentCategory : existingCategories) {
+            if (currentCategory.getName().equals(capitalCategoryName)) {
+                return currentCategory;
+            }
+        }
+
         Category category = new Category();
-        category.categoryName = categoryName;
+        category.categoryName = capitalCategoryName;
+        existingCategories.add(category);
         return category;
+    }
+
+    private static String capitalizeFirstLetter(String categoryName) {
+        String capitalCategoryName = categoryName.substring(0, 1).toUpperCase() + categoryName.substring(1);
+        return capitalCategoryName;
     }
 
     public String getName() {
         return this.categoryName;
     }
 
+
     @Override
     public String toString() {
         return "Category{" +
                 "categoryName='" + categoryName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(categoryName, category.categoryName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryName);
     }
 }

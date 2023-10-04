@@ -11,12 +11,16 @@ public class ProductRecord {
     BigDecimal productPrice;
     Category productCategory;
 
+    // list containing all created categories?
+
     public ProductRecord(UUID productUUID, String productName, BigDecimal productPrice, Category category) {
         this.productUUID = productUUID;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productCategory = category;
     }
+
+
 
     /**returns this objects UUID*/
     public UUID uuid() {

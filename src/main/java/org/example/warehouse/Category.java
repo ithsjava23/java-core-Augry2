@@ -15,6 +15,11 @@ public class Category {
      * will create a new object of type Category
      */
     public static Category of(String categoryName) {
+
+        if (categoryName == null) {
+            throw new IllegalArgumentException("Category name can't be null");
+        }
+
         String capitalCategoryName = capitalizeFirstLetter(categoryName);
 
         // todo add streams instead of loop
@@ -24,6 +29,11 @@ public class Category {
             }
         }
 
+        Category category = CreateNewCategory(capitalCategoryName);
+        return category;
+    }
+
+    private static Category CreateNewCategory(String capitalCategoryName) {
         Category category = new Category();
         category.categoryName = capitalCategoryName;
         existingCategories.add(category);
@@ -31,6 +41,13 @@ public class Category {
     }
 
     private static String capitalizeFirstLetter(String categoryName) {
+
+//        try{
+//
+//        } catch (IllegalArgumentException e) {
+//            System.out.println("Category name can't be null");
+//        }
+
         String capitalCategoryName = categoryName.substring(0, 1).toUpperCase() + categoryName.substring(1);
         return capitalCategoryName;
     }

@@ -16,7 +16,7 @@ public class Test {
 
         System.out.println(warehouse.getProductById(testID));
 
-        Category apple = Category.of("fruit");
+        Category apple = Category.of(null);
         Category orange = Category.of("fruit");
 
 

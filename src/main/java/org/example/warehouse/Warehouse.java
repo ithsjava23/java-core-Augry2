@@ -1,10 +1,7 @@
 package org.example.warehouse;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class Warehouse {
 
@@ -62,9 +59,9 @@ public class Warehouse {
         return listOfProducts.isEmpty();
     }
 
-    //todo should return a list or something
+    /**returns an immutable version of the listOfProducts*/
     public List<ProductRecord> getProducts() {
-        return listOfProducts;
+        return Collections.unmodifiableList(listOfProducts);
     }
 
     /**todo read what optional does.. seems to work with the test
@@ -81,6 +78,11 @@ public class Warehouse {
     }
 
     public void updateProductPrice(Object uuid, BigDecimal bigDecimal) {
+        // iterate through all products
+        // if uuid cannot be found -> throw illegalArgumentException
+
+        //throw new IllegalArgumentException("Product with that id doesn't exist.");
+
     }
 
     // todo return arraylist

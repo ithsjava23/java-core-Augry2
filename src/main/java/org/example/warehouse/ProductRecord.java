@@ -8,6 +8,11 @@ public class ProductRecord {
 
     UUID productUUID;
     String productName;
+
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
+    }
+
     BigDecimal productPrice;
     Category productCategory;
 
@@ -50,7 +55,7 @@ public class ProductRecord {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductRecord that = (ProductRecord) o;
+        ProductRecord that = (ProductRecord) o; // Cast the input object to ProductRecord
         return Objects.equals(productUUID, that.productUUID);
     }
 

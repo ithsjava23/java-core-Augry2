@@ -6,48 +6,50 @@ import java.util.UUID;
 
 public class ProductRecord {
 
-    UUID productUUID;
-    String productName;
-
-    public void setProductPrice(BigDecimal productPrice) {
-        this.productPrice = productPrice;
-    }
-
-    BigDecimal productPrice;
-    Category productCategory;
+    private UUID uuid;
+    private String name;
+    private BigDecimal price;
+    private Category category;
 
     // list containing all created categories?
 
-    public ProductRecord(UUID productUUID, String productName, BigDecimal productPrice, Category category) {
-        this.productUUID = productUUID;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productCategory = category;
+    public ProductRecord(UUID uuid, String name, BigDecimal price, Category category) {
+        this.uuid = uuid;
+        this.name = name;
+        this.price = price;
+        this.category = category;
     }
 
 
 
     /**returns this objects UUID*/
     public UUID uuid() {
-        return this.productUUID;
+        return this.uuid;
     }
 
     public Category category() {
-        return this.productCategory;
+        return this.category;
     }
 
     public Object price() {
-        return this.productPrice;
+        return this.price;
     }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+
+
 
 
     @Override
     public String toString() {
         return "ProductRecord{" +
-                "productUUID=" + productUUID +
-                ", productName='" + productName + '\'' +
-                ", productPrice=" + productPrice +
-                ", productCategory=" + productCategory +
+                "productUUID=" + uuid +
+                ", productName='" + name + '\'' +
+                ", productPrice=" + price +
+                ", productCategory=" + category +
                 '}';
     }
 
@@ -55,12 +57,15 @@ public class ProductRecord {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductRecord that = (ProductRecord) o; // Cast the input object to ProductRecord
-        return Objects.equals(productUUID, that.productUUID);
+        ProductRecord that = (ProductRecord) o;
+        return Objects.equals(uuid, that.uuid) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(price, that.price) &&
+                Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productUUID);
+        return Objects.hash(uuid, name, price, category);
     }
 }

@@ -6,45 +6,71 @@ import java.util.*;
 public class Warehouse {
 
     private List<ProductRecord> listOfProducts = new ArrayList<>();
-    /**
-     * list that contains all the products in the store
-     */
     private List<ProductRecord> listOfChangedProducts = new ArrayList<>();
     private String name;
-    private static Warehouse uniqueInstance; // todo read more about this thing
-
-    private Warehouse() {
-        this.name = "basic warehouse";
-    }
 
     private Warehouse(String name) {
         this.name = name;
+        this.listOfProducts = new ArrayList<>();
+        this.listOfChangedProducts = new ArrayList<>();
     }
 
-    /**
-     * if a warehouse of the same name does not already exist, it creates a
-     * new warehouse and sets the name to default warehouse
-     */
-    public static Warehouse getInstance() {
-        if (uniqueInstance == null) {
-            // If the instance is null, create a new instance with the default name
-            uniqueInstance = new Warehouse();
-        }
-        return uniqueInstance;
-    }
-
-    /**
-     * checks if the variable uniqueInstance is null OR if uniqueInstance has been given a name which equals the name in the parameter
-     * otherwise it will return the existing one
-     *
-     * @param name becomes the name for the object
-     */
     public static Warehouse getInstance(String name) {
-        if (uniqueInstance == null || !uniqueInstance.name.equals(name)) {
-            uniqueInstance = new Warehouse(name);
-        }
-        return uniqueInstance;
+        return new Warehouse(name);
     }
+    public static Warehouse getInstance(){
+        return new Warehouse("New Warehouse");
+    }
+
+
+
+
+
+
+
+//    private List<ProductRecord> listOfProducts = new ArrayList<>();
+//    private List<ProductRecord> listOfChangedProducts = new ArrayList<>();
+//    private String name;
+//    private static Warehouse uniqueInstance; // todo read more about this thing, singleton pattern
+//
+//    private Warehouse() {
+//        this.name = "basic warehouse";
+//    }
+//
+//    private Warehouse(String name) {
+//        this.name = name;
+//    }
+//
+//    /**
+//     * if a warehouse of the same name does not already exist, it creates a
+//     * new warehouse and sets the name to default warehouse
+//     */
+//    public static Warehouse getInstance() {
+//        if (uniqueInstance == null) {
+//            uniqueInstance = new Warehouse();
+//            uniqueInstance.clearLists();
+//        }
+//        return uniqueInstance;
+//    }
+//
+//    /**
+//     * checks if the variable uniqueInstance is null OR if uniqueInstance has been given a name which equals the name in the parameter
+//     * otherwise it will return the existing one
+//     *
+//     * @param name becomes the name for the object
+//     */
+//    public static Warehouse getInstance(String name) {
+//        if (uniqueInstance == null || !uniqueInstance.name.equals(name)) {
+//            uniqueInstance = new Warehouse(name);
+//            uniqueInstance.clearLists();
+//        }
+//        return uniqueInstance;
+//    }
+//
+//    private void clearLists() {
+//        listOfProducts.clear();
+//        listOfChangedProducts.clear();
+//    }
 
     /**
      * Creates an object of the type ProductRecord. and adds it to the list
@@ -52,6 +78,15 @@ public class Warehouse {
      * @return returns the created product
      */
     public ProductRecord addProduct(UUID id, String name, Category category, BigDecimal price) {
+        // Check if a product with the same UUID already exists
+        for (ProductRecord existingProduct : listOfProducts) {
+            if (existingProduct.uuid().equals(id)) {
+                // If a product with the same UUID exists, return the existing product and do not create a new one
+                return existingProduct;
+            }
+        }
+
+        // If no product with the same UUID exists, create a new one and add it to the list
         ProductRecord newItem = new ProductRecord(id, name, price, category);
         listOfProducts.add(newItem);
         return newItem;
@@ -66,7 +101,8 @@ public class Warehouse {
      * returns an immutable version of the listOfProducts
      */
     public List<ProductRecord> getProducts() {
-        return Collections.unmodifiableList(listOfProducts);
+        return Collections.unmodifiableList(this.listOfProducts);
+
     }
 
     /**
@@ -83,30 +119,39 @@ public class Warehouse {
         return Optional.empty();
     }
 
-    /***/
+    /**
+     * Updates the price of a specified item. throws exception if item cannot be found
+     */
     public void updateProductPrice(Object uuid, BigDecimal bigDecimal) {
 
-
-        // throws exception if the listOfProducts does not contain the specified uuid
-        // this works because we have overwritten the equals method in ProductRecord to compare UUID instead of object reference
-        boolean found = false;
-        for (ProductRecord curProduct : listOfProducts){
-            if (curProduct.productUUID.equals(uuid)) {
-                found = true;
-                break;
-            }
-        }
-
-        if (!found){
+        Optional<ProductRecord> productToUpdate = getProductById((UUID) uuid);
+        if (productToUpdate.isPresent()) {
+            ProductRecord curProduct = productToUpdate.get();
+            curProduct.setPrice(bigDecimal);
+            listOfChangedProducts.add(curProduct);
+        } else {
             throw new IllegalArgumentException("Product with that id doesn't exist.");
-        }else {
-            for (ProductRecord curProduct : listOfProducts) {
-                if (curProduct.productUUID.equals(uuid)) {
-                    curProduct.setProductPrice(bigDecimal);
-                    listOfChangedProducts.add(curProduct);
-                }
-            }
         }
+
+
+//        boolean found = false;
+//        for (ProductRecord curProduct : listOfProducts){
+//            if (curProduct.uuid().equals(uuid)) {
+//                found = true;
+//                break;
+//            }
+//        }
+//
+//        if (!found){
+//            throw new IllegalArgumentException("Product with that id doesn't exist.");
+//        }else { // todo replace with streams maybe
+//            for (ProductRecord curProduct : listOfProducts) {
+//                if (curProduct.uuid().equals(uuid)) {
+//                    curProduct.setProductPrice(bigDecimal);
+//                    listOfChangedProducts.add(curProduct);
+//                }
+//            }
+//        }
     }
 
     public List<ProductRecord> getChangedProducts() {
@@ -121,7 +166,6 @@ public class Warehouse {
     // todo should return all the product sorted by input category?
     public List<ProductRecord> getProductsBy(Category category) {
 
-        // todo temporary code just to compile
         List<ProductRecord> productsInCategory = new ArrayList<>();
         for (ProductRecord product : listOfProducts) {
             if (product.category().equals(category)) {

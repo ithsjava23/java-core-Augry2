@@ -6,18 +6,24 @@ import java.util.UUID;
 public class Test {
     public static void main(String[] args) {
         // UUID.randomUUID()
-        UUID testID = new UUID(123L, 0);
-
+        UUID testID1 = new UUID(1L, 0);
+        UUID testID2 = new UUID(2L, 0);
+        UUID testID3 = new UUID(3L, 0);
+        //UUID testID = UUID.randomUUID();
 
         Warehouse warehouse = Warehouse.getInstance("myStore");
-        warehouse.addProduct(testID,"milk", Category.of("milk"), BigDecimal.valueOf(23));
+
+        System.out.println(warehouse.getProducts().isEmpty());
+
+        warehouse.addProduct(testID1,"milk", Category.of("milk"), BigDecimal.valueOf(23));
+        warehouse.addProduct(testID2,"banana", Category.of("fruit"), BigDecimal.valueOf(2));
+        warehouse.addProduct(testID3,"apple", Category.of("fruit"), BigDecimal.valueOf(8));
 
         System.out.println(warehouse.getProducts());
 
-        warehouse.updateProductPrice(testID, BigDecimal.valueOf(555,2));
-
-        System.out.println(warehouse.getProducts());
-
+        Warehouse warehouse1 = Warehouse.getInstance("myStore");
+        System.out.println(warehouse1.getProducts().isEmpty());
+        System.out.print(warehouse1.getProducts().size());
 
     }
 }

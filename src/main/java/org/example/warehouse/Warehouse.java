@@ -18,59 +18,10 @@ public class Warehouse {
     public static Warehouse getInstance(String name) {
         return new Warehouse(name);
     }
-    public static Warehouse getInstance(){
+
+    public static Warehouse getInstance() {
         return new Warehouse("New Warehouse");
     }
-
-
-
-
-
-
-
-//    private List<ProductRecord> listOfProducts = new ArrayList<>();
-//    private List<ProductRecord> listOfChangedProducts = new ArrayList<>();
-//    private String name;
-//    private static Warehouse uniqueInstance; // todo read more about this thing, singleton pattern
-//
-//    private Warehouse() {
-//        this.name = "basic warehouse";
-//    }
-//
-//    private Warehouse(String name) {
-//        this.name = name;
-//    }
-//
-//    /**
-//     * if a warehouse of the same name does not already exist, it creates a
-//     * new warehouse and sets the name to default warehouse
-//     */
-//    public static Warehouse getInstance() {
-//        if (uniqueInstance == null) {
-//            uniqueInstance = new Warehouse();
-//            uniqueInstance.clearLists();
-//        }
-//        return uniqueInstance;
-//    }
-//
-//    /**
-//     * checks if the variable uniqueInstance is null OR if uniqueInstance has been given a name which equals the name in the parameter
-//     * otherwise it will return the existing one
-//     *
-//     * @param name becomes the name for the object
-//     */
-//    public static Warehouse getInstance(String name) {
-//        if (uniqueInstance == null || !uniqueInstance.name.equals(name)) {
-//            uniqueInstance = new Warehouse(name);
-//            uniqueInstance.clearLists();
-//        }
-//        return uniqueInstance;
-//    }
-//
-//    private void clearLists() {
-//        listOfProducts.clear();
-//        listOfChangedProducts.clear();
-//    }
 
     /**
      * Creates an object of the type ProductRecord. and adds it to the list
@@ -78,6 +29,24 @@ public class Warehouse {
      * @return returns the created product
      */
     public ProductRecord addProduct(UUID id, String name, Category category, BigDecimal price) {
+        UUID randomId = UUID.randomUUID();
+        // if the name is empty or if category is null, throw exception
+        checkForExceptions(name, category);
+
+        for (ProductRecord currentProduct : listOfProducts) {
+            if (currentProduct.uuid().equals(id)) {
+                throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
+            }
+        }
+
+        // if price is null, set it to 0
+        if (price == null)
+            price = BigDecimal.valueOf(0);
+
+        // if id is null, give it a random UUID
+        if (id == null)
+            id = randomId;
+
         // Check if a product with the same UUID already exists
         for (ProductRecord existingProduct : listOfProducts) {
             if (existingProduct.uuid().equals(id)) {
@@ -90,6 +59,16 @@ public class Warehouse {
         ProductRecord newItem = new ProductRecord(id, name, price, category);
         listOfProducts.add(newItem);
         return newItem;
+    }
+
+    private static void checkForExceptions(String name, Category category) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Product name can't be null or empty.");
+        } else if (category == null) { // have to use == otherwise it will cast a nullPointerException
+            throw new IllegalArgumentException("Category can't be null.");
+        }
+
+
     }
 
 
@@ -159,11 +138,30 @@ public class Warehouse {
     }
 
     // todo should return a map using keys and values, maybe key is category and value is the item
-    public boolean getProductsGroupedByCategories() {
-        return false;
+    public Map getProductsGroupedByCategories() {
+        HashMap<Category, List<ProductRecord>> mapOfProducts = new HashMap<Category, List<ProductRecord>>();
+        HashSet<Category> categoryHashSet = new HashSet<>();
+        createHashSetOfCategories(categoryHashSet);
+
+        for (Category currentCategory : categoryHashSet) {
+            mapOfProducts.put(currentCategory, getProductsBy(currentCategory));
+        }
+
+        System.out.println(mapOfProducts);
+
+        return mapOfProducts;
     }
 
-    // todo should return all the product sorted by input category?
+    private void createHashSetOfCategories(HashSet<Category> categoryHashSet) {
+        for (ProductRecord currentCategory : listOfProducts) {
+            // create a list of categories which contains no doublettes
+            categoryHashSet.add(currentCategory.category());
+        }
+    }
+
+    /**
+     * returns a list containing all items of a specified category
+     */
     public List<ProductRecord> getProductsBy(Category category) {
 
         List<ProductRecord> productsInCategory = new ArrayList<>();

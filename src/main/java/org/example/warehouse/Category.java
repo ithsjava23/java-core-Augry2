@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Category {
-    String categoryName;
+    private String categoryName;
     private static List<Category> existingCategories = new ArrayList<>();
 
     private Category() {

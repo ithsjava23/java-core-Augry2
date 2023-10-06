@@ -13,17 +13,12 @@ public class Test {
 
         Warehouse warehouse = Warehouse.getInstance("myStore");
 
-        System.out.println(warehouse.getProducts().isEmpty());
 
         warehouse.addProduct(testID1,"milk", Category.of("milk"), BigDecimal.valueOf(23));
         warehouse.addProduct(testID2,"banana", Category.of("fruit"), BigDecimal.valueOf(2));
         warehouse.addProduct(testID3,"apple", Category.of("fruit"), BigDecimal.valueOf(8));
 
-        System.out.println(warehouse.getProducts());
-
-        Warehouse warehouse1 = Warehouse.getInstance("myStore");
-        System.out.println(warehouse1.getProducts().isEmpty());
-        System.out.print(warehouse1.getProducts().size());
+        warehouse.getProductsGroupedByCategories();
 
     }
 }

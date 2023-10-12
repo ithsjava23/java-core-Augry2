@@ -43,7 +43,6 @@ public class Warehouse {
         if (id == null)
             id = randomId;
 
-
         // Check if a product with the same UUID already exists
         for (ProductRecord existingProduct : listOfProducts) {
             if (existingProduct.uuid().equals(id))
@@ -63,6 +62,7 @@ public class Warehouse {
             throw new IllegalArgumentException("Category can't be null.");
         }
 
+        // if product with input uuid already exists in listOfProducts
         if (listOfProducts.stream().anyMatch(product -> product.uuid().equals(id))) {
             throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
         }

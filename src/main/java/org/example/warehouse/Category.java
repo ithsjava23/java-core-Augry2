@@ -29,8 +29,7 @@ public class Category {
             }
         }
 
-        Category category = CreateNewCategory(capitalCategoryName);
-        return category;
+        return CreateNewCategory(capitalCategoryName);
     }
 
     private static Category CreateNewCategory(String capitalCategoryName) {

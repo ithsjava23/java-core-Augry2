@@ -113,7 +113,7 @@ public class Warehouse {
     }
 
 
-    public Map getProductsGroupedByCategories() {
+    public Map<Category, List<ProductRecord>> getProductsGroupedByCategories() {
         HashMap<Category, List<ProductRecord>> mapOfProducts = new HashMap<>();
         HashSet<Category> categoryHashSet = new HashSet<>();
         createHashSetOfCategories(categoryHashSet);

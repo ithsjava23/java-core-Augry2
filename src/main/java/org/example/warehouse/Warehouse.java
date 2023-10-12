@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 public class Warehouse {
 
-    private List<ProductRecord> listOfProducts = new ArrayList<>();
-    private List<ProductRecord> listOfChangedProducts = new ArrayList<>();
+    private List<ProductRecord> listOfProducts;
+    private List<ProductRecord> listOfChangedProducts;
     private String name;
 
     private Warehouse(String name) {

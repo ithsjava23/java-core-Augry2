@@ -70,7 +70,7 @@ public class Warehouse {
     }
 
 
-    public boolean isEmpty() { // todo look more at what to do with this method
+    public boolean isEmpty() {
         return listOfProducts.isEmpty();
     }
 

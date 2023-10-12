@@ -41,8 +41,7 @@ public class Category {
 
     private static String capitalizeFirstLetter(String categoryName) {
 
-        String capitalCategoryName = categoryName.substring(0, 1).toUpperCase() + categoryName.substring(1);
-        return capitalCategoryName;
+        return categoryName.substring(0, 1).toUpperCase() + categoryName.substring(1);
     }
 
     public String getName() {

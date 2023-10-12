@@ -2,6 +2,7 @@ package org.example.warehouse;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Warehouse {
 
@@ -47,12 +48,11 @@ public class Warehouse {
         if (id == null)
             id = randomId;
 
+
         // Check if a product with the same UUID already exists
         for (ProductRecord existingProduct : listOfProducts) {
-            if (existingProduct.uuid().equals(id)) {
-                // If a product with the same UUID exists, return the existing product and do not create a new one
-                return existingProduct;
-            }
+            if (existingProduct.uuid().equals(id))
+                return existingProduct; // If a product with the same UUID exists, return the existing product and do not create a new one
         }
 
         // If no product with the same UUID exists, create a new one and add it to the list
@@ -67,8 +67,6 @@ public class Warehouse {
         } else if (category == null) { // have to use == otherwise it will cast a nullPointerException
             throw new IllegalArgumentException("Category can't be null.");
         }
-
-
     }
 
 
@@ -85,18 +83,15 @@ public class Warehouse {
     }
 
     /**
-     * todo read what optional does.. seems to work with the test
      * searches for a specified product, if the product is found we return it
-     * otherwise return optional.empty (instead of null)
+     * otherwise return empty optional
      */
     public Optional<ProductRecord> getProductById(UUID uuid) {
-        for (ProductRecord product : listOfProducts) {
-            if (product.uuid().equals(uuid)) {
-                return Optional.of(product);
-            }
-        }
-        return Optional.empty();
+        return listOfProducts.stream()
+                .filter(product -> product.uuid().equals(uuid))
+                .findFirst(); // returns first element that matches, or empty optional if no match is found
     }
+
 
     /**
      * Updates the price of a specified item. throws exception if item cannot be found
@@ -111,33 +106,13 @@ public class Warehouse {
         } else {
             throw new IllegalArgumentException("Product with that id doesn't exist.");
         }
-
-
-//        boolean found = false;
-//        for (ProductRecord curProduct : listOfProducts){
-//            if (curProduct.uuid().equals(uuid)) {
-//                found = true;
-//                break;
-//            }
-//        }
-//
-//        if (!found){
-//            throw new IllegalArgumentException("Product with that id doesn't exist.");
-//        }else { // todo replace with streams maybe
-//            for (ProductRecord curProduct : listOfProducts) {
-//                if (curProduct.uuid().equals(uuid)) {
-//                    curProduct.setProductPrice(bigDecimal);
-//                    listOfChangedProducts.add(curProduct);
-//                }
-//            }
-//        }
     }
 
     public List<ProductRecord> getChangedProducts() {
         return listOfChangedProducts;
     }
 
-    // todo should return a map using keys and values, maybe key is category and value is the item
+
     public Map getProductsGroupedByCategories() {
         HashMap<Category, List<ProductRecord>> mapOfProducts = new HashMap<Category, List<ProductRecord>>();
         HashSet<Category> categoryHashSet = new HashSet<>();
@@ -153,10 +128,10 @@ public class Warehouse {
     }
 
     private void createHashSetOfCategories(HashSet<Category> categoryHashSet) {
-        for (ProductRecord currentCategory : listOfProducts) {
-            // create a list of categories which contains no doublettes
-            categoryHashSet.add(currentCategory.category());
-        }
+        // creates a stream, .map creates a new stream of categories, by calling on the category method in the productRecord class, then adds it to hashset
+        listOfProducts.stream()
+                .map(ProductRecord::category)
+                .forEach(categoryHashSet::add);
     }
 
     /**
@@ -164,13 +139,9 @@ public class Warehouse {
      */
     public List<ProductRecord> getProductsBy(Category category) {
 
-        List<ProductRecord> productsInCategory = new ArrayList<>();
-        for (ProductRecord product : listOfProducts) {
-            if (product.category().equals(category)) {
-                productsInCategory.add(product);
-            }
-        }
-        return productsInCategory;
+        return listOfProducts.stream() // create stream of ProductRecords
+                .filter(product -> product.category().equals(category)) // if the category of the product in the list = the category sent in as parameter
+                .collect(Collectors.toList()); // add to a new list, send it up and return it
     }
 
 

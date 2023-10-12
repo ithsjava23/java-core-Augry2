@@ -42,12 +42,6 @@ public class Category {
 
     private static String capitalizeFirstLetter(String categoryName) {
 
-//        try{
-//
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("Category name can't be null");
-//        }
-
         String capitalCategoryName = categoryName.substring(0, 1).toUpperCase() + categoryName.substring(1);
         return capitalCategoryName;
     }

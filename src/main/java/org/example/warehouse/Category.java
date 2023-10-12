@@ -3,6 +3,7 @@ package org.example.warehouse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Category {
     private String categoryName;
@@ -22,17 +23,14 @@ public class Category {
 
         String capitalCategoryName = capitalizeFirstLetter(categoryName);
 
-        // todo add streams instead of loop
-        for (Category currentCategory : existingCategories) {
-            if (currentCategory.getName().equals(capitalCategoryName)) {
-                return currentCategory;
-            }
-        }
+        Optional<Category> existingCategory = existingCategories.stream()
+                .filter(category -> category.getName().equals(capitalCategoryName))
+                .findFirst();
 
-        return CreateNewCategory(capitalCategoryName);
+        return existingCategory.orElseGet(() -> createNewCategory(capitalCategoryName));
     }
 
-    private static Category CreateNewCategory(String capitalCategoryName) {
+    private static Category createNewCategory(String capitalCategoryName) {
         Category category = new Category();
         category.categoryName = capitalCategoryName;
         existingCategories.add(category);

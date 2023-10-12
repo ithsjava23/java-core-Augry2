@@ -8,7 +8,7 @@ public class Warehouse {
 
     private final List<ProductRecord> listOfProducts;
     private final List<ProductRecord> listOfChangedProducts;
-    private String name; // used by tests so it's ok that its grayed-out
+    private final String name; // used by tests so it's ok that its grayed-out
 
     private Warehouse(String name) {
         this.name = name;

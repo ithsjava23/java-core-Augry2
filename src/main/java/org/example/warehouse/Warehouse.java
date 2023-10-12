@@ -32,13 +32,9 @@ public class Warehouse {
     public ProductRecord addProduct(UUID id, String name, Category category, BigDecimal price) {
         UUID randomId = UUID.randomUUID();
         // if the name is empty or if category is null, throw exception
-        checkForExceptions(name, category);
+        checkForExceptions(name, category, id);
 
-        for (ProductRecord currentProduct : listOfProducts) {
-            if (currentProduct.uuid().equals(id)) {
-                throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
-            }
-        }
+
 
         // if price is null, set it to 0
         if (price == null)
@@ -61,11 +57,17 @@ public class Warehouse {
         return newItem;
     }
 
-    private static void checkForExceptions(String name, Category category) {
+    public void checkForExceptions(String name, Category category, UUID id) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Product name can't be null or empty.");
         } else if (category == null) { // have to use == otherwise it will cast a nullPointerException
             throw new IllegalArgumentException("Category can't be null.");
+        }
+
+        for (ProductRecord currentProduct : listOfProducts) {
+            if (currentProduct.uuid().equals(id)) {
+                throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
+            }
         }
     }
 

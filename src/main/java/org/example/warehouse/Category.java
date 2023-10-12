@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Category {
     private String categoryName;
-    private static List<Category> existingCategories = new ArrayList<>();
+    private static final List<Category> existingCategories = new ArrayList<>();
 
     private Category() {
     }

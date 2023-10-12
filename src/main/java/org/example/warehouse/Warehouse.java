@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 public class Warehouse {
 
-    private List<ProductRecord> listOfProducts;
-    private List<ProductRecord> listOfChangedProducts;
+    private final List<ProductRecord> listOfProducts;
+    private final List<ProductRecord> listOfChangedProducts;
     private String name; // used by tests so it's ok that its grayed-out
 
     private Warehouse(String name) {

@@ -8,7 +8,7 @@ public class Warehouse {
 
     private List<ProductRecord> listOfProducts;
     private List<ProductRecord> listOfChangedProducts;
-    private String name;
+    private String name; // used by tests so it's ok that its grayed-out
 
     private Warehouse(String name) {
         this.name = name;
@@ -114,7 +114,7 @@ public class Warehouse {
 
 
     public Map getProductsGroupedByCategories() {
-        HashMap<Category, List<ProductRecord>> mapOfProducts = new HashMap<Category, List<ProductRecord>>();
+        HashMap<Category, List<ProductRecord>> mapOfProducts = new HashMap<>();
         HashSet<Category> categoryHashSet = new HashSet<>();
         createHashSetOfCategories(categoryHashSet);
 

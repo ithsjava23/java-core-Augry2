@@ -31,10 +31,9 @@ public class Warehouse {
      */
     public ProductRecord addProduct(UUID id, String name, Category category, BigDecimal price) {
         UUID randomId = UUID.randomUUID();
-        // if the name is empty or if category is null, throw exception
+
+        // if the name is empty or if category is null or product already exist, throw exception
         checkForExceptions(name, category, id);
-
-
 
         // if price is null, set it to 0
         if (price == null)
@@ -64,10 +63,8 @@ public class Warehouse {
             throw new IllegalArgumentException("Category can't be null.");
         }
 
-        for (ProductRecord currentProduct : listOfProducts) {
-            if (currentProduct.uuid().equals(id)) {
-                throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
-            }
+        if (listOfProducts.stream().anyMatch(product -> product.uuid().equals(id))) {
+            throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
         }
     }
 

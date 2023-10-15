@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class Test {
     public static void main(String[] args) {
+
         // UUID.randomUUID()
         UUID testID1 = new UUID(1L, 0);
         UUID testID2 = new UUID(2L, 0);
@@ -12,7 +13,6 @@ public class Test {
         //UUID testID = UUID.randomUUID();
 
         Warehouse warehouse = Warehouse.getInstance("myStore");
-
 
         warehouse.addProduct(testID1,"milk", Category.of("milk"), BigDecimal.valueOf(23));
         warehouse.addProduct(testID2,"banana", Category.of("fruit"), BigDecimal.valueOf(2));
